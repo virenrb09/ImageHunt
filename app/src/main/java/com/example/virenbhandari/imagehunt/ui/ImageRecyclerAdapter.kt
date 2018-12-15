@@ -20,7 +20,7 @@ interface RecyclerAdapterView {
     fun setCanLoadMore(value: Boolean)
 }
 
-class ImageRecyclerAdapter(context: Context, private val listener: ImageRecyclerListener) :
+class ImageRecyclerAdapter(context: Context, private val listener: ImageRecyclerListener?):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), RecyclerAdapterView {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -29,10 +29,10 @@ class ImageRecyclerAdapter(context: Context, private val listener: ImageRecycler
     private var isLoadMoreCalled: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): RecyclerView.ViewHolder {
-        if (position >= items.size) {
-            return LoadingViewHolder(this.layoutInflater.inflate(R.layout.loading_item_view, parent, false))
+        return if (position >= items.size) {
+            LoadingViewHolder(this.layoutInflater.inflate(R.layout.loading_item_view, parent, false))
         } else {
-            return ImageViewHolder(this.layoutInflater.inflate(R.layout.image_item_view, parent, false))
+            ImageViewHolder(this.layoutInflater.inflate(R.layout.image_item_view, parent, false))
         }
     }
 
@@ -43,7 +43,7 @@ class ImageRecyclerAdapter(context: Context, private val listener: ImageRecycler
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position >= items.size) {
             if (!isLoadMoreCalled) {
-                listener.loadMore()
+                listener?.loadMore()
                 isLoadMoreCalled = !isLoadMoreCalled
             }
         } else {
@@ -70,14 +70,6 @@ class ImageRecyclerAdapter(context: Context, private val listener: ImageRecycler
         this.canLoadMore = canLoadMore
         this.items.addAll(items)
         notifyDataSetChanged()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (position >= items.size) {
-            0
-        } else {
-            1
-        }
     }
 
     override fun setCanLoadMore(value: Boolean) {

@@ -2,9 +2,7 @@
 
 - Simple Flickr based image search app without using any third party libraries.
 
-![alt text](https://raw.githubusercontent.com/virenrb09/ImageHunt/master/screenshots/Screenshot_1544871831.png)
-![alt text](https://raw.githubusercontent.com/virenrb09/ImageHunt/master/screenshots/Screenshot_1544871844.png)
-![alt text](https://raw.githubusercontent.com/virenrb09/ImageHunt/master/screenshots/Screenshot_1544871871.png)
+![alt text](https://raw.githubusercontent.com/virenrb09/ImageHunt/master/screenshots/Screenshot_1544871831.png) ![alt text](https://raw.githubusercontent.com/virenrb09/ImageHunt/master/screenshots/Screenshot_1544871844.png) ![alt text](https://raw.githubusercontent.com/virenrb09/ImageHunt/master/screenshots/Screenshot_1544871871.png)
 
 Required Future Improvement :
 
