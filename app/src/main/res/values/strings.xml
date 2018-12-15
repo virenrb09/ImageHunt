@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ImageHunt</string>
+    <string name="search_hint">Your hunt for images start here</string>
+    <string name="empty_view_text">Please type hunt query to see results</string>
+    <string name="error_view_text">Something went wrong...</string>
+    <string name="retry">Retry</string>
+</resources>
