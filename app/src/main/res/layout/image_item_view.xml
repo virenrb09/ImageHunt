@@ -17,7 +17,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/image_view"
                 android:src="@mipmap/ic_launcher"
-                android:scaleType="fitCenter"/>
+                android:scaleType="centerCrop"/>
 
         <TextView
                 android:id="@+id/title_tv"

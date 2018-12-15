@@ -14,9 +14,9 @@ private const val READ_TIMEOUT = 8000
 private const val CONNECTION_TIMEOUT = 8000
 const val CUSTOM_ERROR_CODE = 1000
 
-class NetworkTask<T>(
+class NetworkTask<Any>(
     private val url: String,
-    private val listener: IAPIListener<T>,
+    private val listener: IAPIListener<Any>,
     private val httpMethod: String
 ) : AsyncTask<String, String, String>() {
 
@@ -61,7 +61,6 @@ class NetworkTask<T>(
 
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
-//        listener.onSuccess(response = Gson().fromJson(result, object : TypeToken<T>(){}.type))
         listener.onSuccess(response = Gson().fromJson(result, object : TypeToken<SearchResult>() {}.type))
     }
 }

@@ -8,7 +8,9 @@ import android.view.View
 import android.widget.*
 import com.example.virenbhandari.imagehunt.R
 import com.example.virenbhandari.imagehunt.rest.FlickrRepoImpl
+import com.example.virenbhandari.imagehunt.rest.RestClientImpl
 import com.example.virenbhandari.imagehunt.util.FlickrUtil
+import com.example.virenbhandari.imagehunt.util.FlickrUtilImpl
 
 class MainActivity : AppCompatActivity(), ImageHuntView {
 
@@ -23,11 +25,8 @@ class MainActivity : AppCompatActivity(), ImageHuntView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // instead of creating deps here, we can use dagger for providing dependencies
-        viewModel = ImageHuntViewModelImpl(
-            this, this,
-            FlickrRepoImpl(), FlickrUtil()
-        )
-        viewModel.initData()
+        viewModel = ImageHuntViewModelImpl(this, FlickrRepoImpl(RestClientImpl()), FlickrUtilImpl())
+        viewModel.initData(this)
         setupView()
     }
 

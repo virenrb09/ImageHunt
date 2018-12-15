@@ -28,10 +28,9 @@ object ImageLoader {
         }
     }
 
-    fun displayImage(url: String, imageView: ImageView, tag: Int) {
+    fun displayImage(url: String, imageView: ImageView) {
         val cached = imageCache.get(url)
         if (cached != null) {
-            if (imageView.tag != tag) return
             updateImageView(imageView, cached)
             return
         }
@@ -40,8 +39,13 @@ object ImageLoader {
         executorService.submit {
             val bitmap: Bitmap? = downloadImage(url)
             if (bitmap != null) {
-                if (imageView.tag == tag) {
+                if (imageView.tag == url) {
                     updateImageView(imageView, bitmap)
+                } else {
+                    val cached = imageCache.get(imageView.tag as String)
+                    if (cached != null) {
+                        updateImageView(imageView, cached)
+                    }
                 }
                 imageCache.put(url, bitmap)
             }

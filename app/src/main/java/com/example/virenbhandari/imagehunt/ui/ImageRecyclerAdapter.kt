@@ -15,8 +15,13 @@ interface ImageRecyclerListener {
     fun loadMore()
 }
 
+interface RecyclerAdapterView {
+    fun updateData(items: List<ImageItemData>, canLoadMore: Boolean, shouldClear: Boolean)
+    fun setCanLoadMore(value: Boolean)
+}
+
 class ImageRecyclerAdapter(context: Context, private val listener: ImageRecyclerListener) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), RecyclerAdapterView {
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private var items = mutableListOf<ImageItemData>()
@@ -46,7 +51,7 @@ class ImageRecyclerAdapter(context: Context, private val listener: ImageRecycler
             val displayHolder = holder as ImageViewHolder
             displayHolder.titleTV.text = displayItem.title
             displayHolder.iconIV.tag = position
-            ImageLoader.displayImage(displayItem.imageUrl, displayHolder.iconIV, position)
+            ImageLoader.displayImage(displayItem.imageUrl, displayHolder.iconIV)
         }
     }
 
@@ -59,7 +64,7 @@ class ImageRecyclerAdapter(context: Context, private val listener: ImageRecycler
         val progressBar = itemView.findViewById(R.id.progress_bar) as ProgressBar
     }
 
-    fun updateData(items: List<ImageItemData>, canLoadMore: Boolean, shouldClear: Boolean) {
+    override fun updateData(items: List<ImageItemData>, canLoadMore: Boolean, shouldClear: Boolean) {
         if (shouldClear) this.items.clear()
         this.isLoadMoreCalled = false
         this.canLoadMore = canLoadMore
@@ -67,7 +72,15 @@ class ImageRecyclerAdapter(context: Context, private val listener: ImageRecycler
         notifyDataSetChanged()
     }
 
-    fun setCanLoadMore(value: Boolean) {
+    override fun getItemViewType(position: Int): Int {
+        return if (position >= items.size) {
+            0
+        } else {
+            1
+        }
+    }
+
+    override fun setCanLoadMore(value: Boolean) {
         canLoadMore = value
         notifyDataSetChanged()
     }
