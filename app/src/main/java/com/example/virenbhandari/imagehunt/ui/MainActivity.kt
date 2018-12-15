@@ -9,7 +9,6 @@ import android.widget.*
 import com.example.virenbhandari.imagehunt.R
 import com.example.virenbhandari.imagehunt.rest.FlickrRepoImpl
 import com.example.virenbhandari.imagehunt.rest.RestClientImpl
-import com.example.virenbhandari.imagehunt.util.FlickrUtil
 import com.example.virenbhandari.imagehunt.util.FlickrUtilImpl
 
 class MainActivity : AppCompatActivity(), ImageHuntView {
@@ -19,7 +18,8 @@ class MainActivity : AppCompatActivity(), ImageHuntView {
     private val emptyView: LinearLayout                 by lazy { findViewById<LinearLayout>(R.id.empty_view) }
     private val errorView: LinearLayout                 by lazy { findViewById<LinearLayout>(R.id.error_view) }
     private val progressBar: ProgressBar                by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
-    lateinit var viewModel: ImageHuntViewModel
+
+    private lateinit var viewModel: ImageHuntViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

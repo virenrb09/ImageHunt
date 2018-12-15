@@ -29,6 +29,7 @@ object ImageLoader {
     }
 
     fun displayImage(url: String, imageView: ImageView) {
+        if (imageView.tag == url) return
         val cached = imageCache.get(url)
         if (cached != null) {
             updateImageView(imageView, cached)
