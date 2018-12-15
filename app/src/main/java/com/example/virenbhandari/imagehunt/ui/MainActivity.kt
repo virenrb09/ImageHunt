@@ -19,25 +19,25 @@ class MainActivity : AppCompatActivity(), ImageHuntView {
     private val errorView: LinearLayout                 by lazy { findViewById<LinearLayout>(R.id.error_view) }
     private val progressBar: ProgressBar                by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
 
-    private lateinit var viewModel: ImageHuntViewModel
+    private lateinit var presenter: ImageHuntPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // instead of creating deps here, we can use dagger for providing dependencies
-        viewModel = ImageHuntViewModelImpl(this, FlickrRepoImpl(RestClientImpl()), FlickrUtilImpl())
-        viewModel.initData(this)
+        presenter = ImageHuntPresenterImpl(this, FlickrRepoImpl(RestClientImpl()), FlickrUtilImpl())
+        presenter.initData(this)
         setupView()
     }
 
     private fun setupView() {
         searchView.onActionViewExpanded()
-        searchView.setOnQueryTextListener(viewModel.getSearchTextListener())
+        searchView.setOnQueryTextListener(presenter.getSearchTextListener())
         val gridLayoutManager = GridLayoutManager(this, 3, GridLayout.VERTICAL, false)
         imageRV.layoutManager = gridLayoutManager
         imageRV.hasFixedSize()
-        imageRV.adapter = viewModel.getAdapter()
-        imageRV.addItemDecoration(viewModel.getItemDecorator())
+        imageRV.adapter = presenter.getAdapter()
+        imageRV.addItemDecoration(presenter.getItemDecorator())
     }
 
     override fun displayState(state: ViewState) {

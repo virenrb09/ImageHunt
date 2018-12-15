@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.widget.SearchView
 import com.example.virenbhandari.imagehunt.rest.FlickrRepo
 import com.example.virenbhandari.imagehunt.rest.IAPIListener
-import com.example.virenbhandari.imagehunt.model.ImageData
 import com.example.virenbhandari.imagehunt.model.SearchResult
 import com.example.virenbhandari.imagehunt.util.FlickrUtil
 
@@ -18,7 +17,7 @@ interface ImageHuntView {
     fun makeToast(msg: String)
 }
 
-interface ImageHuntViewModel {
+interface ImageHuntPresenter {
     fun getAdapter(): ImageRecyclerAdapter
     fun getSearchTextListener(): SearchView.OnQueryTextListener
     fun getItemDecorator(): RecyclerView.ItemDecoration
@@ -26,11 +25,11 @@ interface ImageHuntViewModel {
     fun onRetry()
 }
 
-class ImageHuntViewModelImpl(
+class ImageHuntPresenterImpl(
     private val view: ImageHuntView,
     private val repo: FlickrRepo,
     private val util: FlickrUtil
-) : ImageHuntViewModel, ImageRecyclerListener, IAPIListener<SearchResult> {
+) : ImageHuntPresenter, ImageRecyclerListener, IAPIListener<SearchResult> {
 
     // can be made private set to internal only for testing purpose
     internal var pageCount = 1

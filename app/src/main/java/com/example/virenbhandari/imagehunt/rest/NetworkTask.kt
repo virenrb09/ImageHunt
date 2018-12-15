@@ -1,12 +1,16 @@
 package com.example.virenbhandari.imagehunt.rest
 
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
+import android.text.TextUtils
 import com.example.virenbhandari.imagehunt.model.SearchResult
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.reflect.Type
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -14,11 +18,13 @@ private const val READ_TIMEOUT = 8000
 private const val CONNECTION_TIMEOUT = 8000
 const val CUSTOM_ERROR_CODE = 1000
 
-class NetworkTask<Any>(
+class NetworkTask(
     private val url: String,
-    private val listener: IAPIListener<Any>,
-    private val httpMethod: String
+    private val listener: IAPIListener<*>,
+    private val httpMethod: String,
+    private val type: Type
 ) : AsyncTask<String, String, String>() {
+    private val uiHandler: Handler = Handler(Looper.getMainLooper())
 
     override fun doInBackground(vararg p0: String?): String {
         var result = ""
@@ -48,19 +54,26 @@ class NetworkTask<Any>(
                         result += tempStr
                     }
                 } catch (Ex: Exception) {
-                    listener.onError(responseCode, "")
+                    uiHandler.post {
+                        listener.onError(responseCode, "")
+                    }
                 }
             } else {
-                listener.onError(responseCode, "")
+                uiHandler.post {
+                    listener.onError(responseCode, "")
+                }
             }
         } catch (ex: Exception) {
-            listener.onError(CUSTOM_ERROR_CODE, ex.toString())
+            uiHandler.post {
+                listener.onError(CUSTOM_ERROR_CODE, ex.toString())
+            }
         }
         return result
     }
 
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
-        listener.onSuccess(response = Gson().fromJson(result, object : TypeToken<SearchResult>() {}.type))
+        if (TextUtils.isEmpty(result)) return
+        listener.onSuccess(response = Gson().fromJson(result, type))
     }
 }

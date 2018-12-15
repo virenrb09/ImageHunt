@@ -14,9 +14,9 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class ImageHuntViewModelImplTest {
+class ImageHuntPresenterImplTest {
 
-    private lateinit var vm: ImageHuntViewModelImpl
+    private lateinit var vm: ImageHuntPresenterImpl
 
     @Mock
     lateinit var view: ImageHuntView
@@ -31,7 +31,7 @@ class ImageHuntViewModelImplTest {
 
     @Before
     fun setup() {
-        vm = ImageHuntViewModelImpl(view, repo, util)
+        vm = ImageHuntPresenterImpl(view, repo, util)
         vm.adapter = recyclerAdapterView
     }
 
