@@ -29,6 +29,8 @@ object ImageLoader {
     }
 
     fun displayImage(url: String, imageView: ImageView) {
+        imageView.setImageBitmap(null)
+        imageView.tag = null
         val cached = imageCache.get(url)
         if (cached != null) {
             updateImageView(imageView, cached)
